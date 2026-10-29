@@ -170,7 +170,7 @@ function render(){
     <div class="row"><div class="seq">${esc(p.n)}</div>
       <div class="who"><div class="name"><span class="rk">${hl(p.r,t)}</span>${hl(p.f,t)} ${hl(p.l,t)}</div>
         <div class="pos">${hl(p.p||'—',t)}</div><div class="unit">${esc(g.d)}</div></div>
-      <div class="tel">${p.t?`<a href="tel:${p.t.replace(/-/g,'')}">${tn.length>=3?hlTel(p.t,tn):p.t}</a><button class="copy" type="button" data-t="${p.t}">คัดลอก</button>`:'<span class="nophone">ไม่มีเบอร์</span>'}</div>
+      <div class="tel">${p.t?`<a href="tel:${p.t.replace(/-/g,'')}">${tn.length>=3?hlTel(p.t,tn):p.t}</a><button class="copy" type="button" data-t="${esc(p.r+' '+p.f+' '+p.l+(p.p?'\n'+p.p:'')+'\nโทร '+p.t)}">คัดลอก</button>`:'<span class="nophone">ไม่มีเบอร์</span>'}</div>
     </div>`).join('')}</section>`).join(''):`<div class="empty">ไม่พบรายชื่อที่ตรงกับ “${esc(t)}”</div>`;
 }
 function hlTel(tel,tn){const d=tel.replace(/\D/g,''),i=d.indexOf(tn);if(i<0)return tel;let out='',k=0;for(const c of tel){if(/\d/.test(c)){const on=k>=i&&k<i+tn.length;out+=on?'<mark>'+c+'</mark>':c;k++}else out+=c}return out.replace(/<\/mark><mark>/g,'')}
@@ -179,7 +179,7 @@ $('#q').addEventListener('input',e=>{q=e.target.value;$('#clr').hidden=!q;render
 $('#clr').addEventListener('click',()=>{q='';$('#q').value='';$('#clr').hidden=true;render();$('#q').focus()});
 $('#list').addEventListener('click',e=>{const b=e.target.closest('.copy');if(!b)return;const t=b.dataset.t;
   const ok=()=>{b.textContent='คัดลอกแล้ว';b.classList.add('done');setTimeout(()=>{b.textContent='คัดลอก';b.classList.remove('done')},1400)};
-  const fb=()=>{const a=b.previousElementSibling,r=document.createRange();r.selectNodeContents(a);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='กด Ctrl+C';setTimeout(()=>b.textContent='คัดลอก',1600)};
+  const fb=()=>{const ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(ta);ta.select();ta.setSelectionRange(0,t.length);let done=false;try{done=document.execCommand('copy')}catch(err){}ta.remove();if(done)ok();else{b.textContent='คัดลอกไม่ได้';setTimeout(()=>b.textContent='คัดลอก',1600)}};
   try{navigator.clipboard.writeText(t).then(ok,fb)}catch(err){fb()}});
 chips();render();
 // install guide popup
