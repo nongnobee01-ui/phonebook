@@ -188,7 +188,7 @@ chips();render();
 // live data from published Google Sheet tab
 const TH='๐๑๒๓๔๕๖๗๘๙';
 const norm=s=>(s||'').replace(/[๐-๙]/g,c=>TH.indexOf(c)).replace(/\s+/g,' ').trim();
-const DMAP={'ผบ.มทบ.11':'สง.ผบ.มทบ.11','ทำการแทน เสธ มทบ.11':'สำนักงาน เสธ.มทบ.11','เสธ.มทบ.11':'สำนักงาน เสธ.มทบ.11','รอง เสธ.มทบ.11':'สำนักงาน รอง เสธ มทบ.11 (1)','เร่งรัดหนี้สิน':'ช่วยราชการภายนอก'};
+const DMAP={'ผบ.มทบ.11':'สง.ผบ.มทบ.11','สนง.ผบ.มทบ.11':'สง.ผบ.มทบ.11','ทำการแทน เสธ มทบ.11':'สำนักงาน เสธ.มทบ.11','เสธ.มทบ.11':'สำนักงาน เสธ.มทบ.11','รอง เสธ.มทบ.11':'สำนักงาน รอง เสธ มทบ.11 (1)','เร่งรัดหนี้สิน':'ช่วยราชการภายนอก'};
 const OUT='ช่วยราชการภายนอก';
 function parseCSV(s){if(s.split('\n',1)[0].includes('\t'))return s.replace(/\r/g,'').split('\n').filter(l=>l.trim()).map(l=>l.split('\t'));const rows=[];let r=[],f='',q=false;for(let i=0;i<s.length;i++){const c=s[i];if(q){if(c==='"'){if(s[i+1]==='"'){f+='"';i++}else q=false}else f+=c}else if(c==='"')q=true;else if(c===','){r.push(f);f=''}else if(c==='\n'||c==='\r'){if(c==='\r'&&s[i+1]==='\n')i++;r.push(f);rows.push(r);r=[];f=''}else f+=c}if(f!==''||r.length){r.push(f);rows.push(r)}return rows}
 function build(rows){
