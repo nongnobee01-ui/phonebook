@@ -197,7 +197,7 @@ function build(rows){
     const [n,rk,fn,ln,pos,dp,ph]=r.map(norm);
     if(!fn&&!ln)continue;
     let d=DMAP[dp]||dp||OUT;
-    const dg=ph.replace(/\D/g,'');
+    let dg=ph.replace(/\D/g,'');if(dg.length===9&&/^[2-9]/.test(dg))dg='0'+dg;if(dg.length===11&&dg.startsWith('66'))dg='0'+dg.slice(2);
     const p={n:n||'–',r:rk,f:fn,l:ln,p:pos,t:dg.length===10?dg.slice(0,3)+'-'+dg.slice(3):''};
     if(!map[d]){map[d]=[];order.push(d)}
     map[d].push(p);
