@@ -65,8 +65,9 @@ section h2 small{font-family:var(--body);font-weight:400;font-size:.8rem;color:v
 .who{min-width:0}
 .name{font-weight:600}
 .name .rk{color:var(--accent);font-weight:500;margin-right:4px}
-.pos{color:var(--muted);font-size:.85rem}
-.nick{font-weight:400;color:var(--muted)}
+.pos{color:var(--muted);font-size:.85rem;padding-left:8px;border-left:2px solid var(--line);margin-top:2px}
+.nick{display:inline-block;font-weight:500;font-size:.8rem;line-height:1.4;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:0 8px;margin-left:4px;vertical-align:1px}
+.nick mark{background:var(--hit);color:var(--fg)}
 .unit{display:none;color:var(--muted);font-size:.78rem}
 .searching .unit{display:block}
 .tel{display:flex;align-items:center;gap:6px}
@@ -173,7 +174,7 @@ function render(){
   document.body.classList.toggle('searching',!!t);
   $('#list').innerHTML=groups.length?groups.map(g=>`<section><h2>${esc(g.d)}<small>${g.p.length} นาย</small></h2>${g.p.map(p=>`
     <div class="row"><div class="seq">${esc(p.n)}</div>
-      <div class="who"><div class="name"><span class="rk">${hl(p.r,t)}</span>${hl(p.f,t)} ${hl(p.l,t)}${p.k?` <span class="nick">(${hl(p.k,t)})</span>`:''}</div>
+      <div class="who"><div class="name"><span class="rk">${hl(p.r,t)}</span>${hl(p.f,t)} ${hl(p.l,t)}${p.k?`<span class="nick">${hl(p.k,t)}</span>`:''}</div>
         <div class="pos">${hl(p.p||'—',t)}</div><div class="unit">${esc(g.d)}</div></div>
       <div class="tel">${p.t?`<a href="tel:${p.t.replace(/-/g,'')}">${tn.length>=3?hlTel(p.t,tn):p.t}</a><button class="copy" type="button" data-t="${esc(p.r+' '+p.f+' '+p.l+(p.k?' ('+p.k+')':'')+(p.p?'\n'+p.p:'')+'\nโทร '+p.t)}">คัดลอก</button>`:'<span class="nophone">ไม่มีเบอร์</span>'}</div>
     </div>`).join('')}</section>`).join(''):`<div class="empty">ไม่พบรายชื่อที่ตรงกับ “${esc(t)}”</div>`;
